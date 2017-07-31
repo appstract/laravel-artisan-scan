@@ -1,9 +1,9 @@
 # Very short description of the package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/appstract/:package_name.svg?style=flat-square)](https://packagist.org/packages/appstract/:package_name)
-[![Total Downloads](https://img.shields.io/packagist/dt/appstract/:package_name.svg?style=flat-square)](https://packagist.org/packages/appstract/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/appstract/laravel-artisan-scan.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-artisan-scan)
+[![Total Downloads](https://img.shields.io/packagist/dt/appstract/laravel-artisan-scan.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-artisan-scan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/appstract/:package_name/master.svg?style=flat-square)](https://travis-ci.org/appstract/:package_name)
+[![Build Status](https://img.shields.io/travis/appstract/laravel-artisan-scan/master.svg?style=flat-square)](https://travis-ci.org/appstract/laravel-artisan-scan)
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors. Create a link to a medium article.
 
@@ -12,7 +12,7 @@ This is where your description should go. Try and limit it to a paragraph or two
 You can install the package via composer:
 
 ``` bash
-composer require appstract/:package_name
+composer require appstract/laravel-artisan-scan
 ```
 
 ### Provider
@@ -23,7 +23,7 @@ Then add the ServiceProvider to your `config/app.php` file:
 'providers' => [
     ...
 
-    Appstract\Skeleton\SkeletonServiceProvider::class
+    Appstract\ArtisanScan\ArtisanScanServiceProvider::class
 
     ...
 ]
