@@ -32,8 +32,7 @@ Then add the ServiceProvider to your `config/app.php` file:
 ## Usage
 
 ``` php
-$skeleton = new Appstract\Skeleton();
-echo $skeleton->echoPhrase('Hello, Appstract!');
+php artisan scan:launch
 ```
 
 ## Testing
