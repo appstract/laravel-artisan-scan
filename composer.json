@@ -1,15 +1,15 @@
 {
-    "name": "appstract/:package_name",
+    "name": "appstract/laravel-artisan-scan",
     "description": ":package_description",
     "keywords": [
         "appstract",
-        ":package_name"
+        "laravel-artisan-scan"
     ],
-    "homepage": "https://github.com/appstract/:package_name",
+    "homepage": "https://github.com/appstract/laravel-artisan-scan",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
+            "name": "Bob Krijnen",
             "email": "hello@appstract.team",
             "homepage": "https://appstract.team",
             "role": "Developer"
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Appstract\\Skeleton\\": "src"
+            "Appstract\\ArtisanScan\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Appstract\\Skeleton\\Test\\": "tests"
+            "Appstract\\ArtisanScan\\Test\\": "tests"
         }
     },
     "scripts": {
@@ -40,10 +40,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Appstract\\Skeleton\\SkeletonServiceProvider"
+                "Appstract\\ArtisanScan\\ArtisanScanServiceProvider"
             ],
             "aliases": {
-                "Alias": "Appstract\\Skeleton\\SkeletonFacade"
+                "Alias": "Appstract\\ArtisanScan\\ScanFacade"
             }
         }
     }
