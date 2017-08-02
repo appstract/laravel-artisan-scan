@@ -4,8 +4,6 @@ namespace Appstract\ArtisanScan\Commands;
 
 use File;
 use Illuminate\Console\Command;
-use Appstract\LushHttp\LushFacade as Lush;
-use Appstract\LushHttp\Exception\LushRequestException;
 
 class Performance extends Command
 {
@@ -21,6 +19,7 @@ class Performance extends Command
      * @var string
      */
     protected $description = 'Scan app performance';
+
     /**
      * Execute the console command.
      *

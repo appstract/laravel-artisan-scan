@@ -22,6 +22,7 @@ class ArtisanScanServiceProvider extends ServiceProvider
             ]);
         }
     }
+
     /**
      * Register the application services.
      */

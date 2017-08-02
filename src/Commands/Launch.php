@@ -4,8 +4,6 @@ namespace Appstract\ArtisanScan\Commands;
 
 use File;
 use Illuminate\Console\Command;
-use Appstract\LushHttp\LushFacade as Lush;
-use Appstract\LushHttp\Exception\LushRequestException;
 use Symfony\Component\Console\Helper\TableSeparator;
 
 class Launch extends Command
@@ -66,7 +64,7 @@ class Launch extends Command
     }
 
     /**
-     * [checkSsl description]
+     * [checkSsl description].
      * @param  [type] $domain [description]
      * @return [type]         [description]
      */
@@ -81,27 +79,26 @@ class Launch extends Command
         try {
             $domain = config('scanner.domain');
             $stream = stream_context_create(['ssl' => ['capture_peer_cert' => true]]);
-            $read   = fopen($domain, 'rb', false, $stream);
+            $read = fopen($domain, 'rb', false, $stream);
         } catch (\Exception $e) {
-            return $this->results['ssl'][] = "<fg=red>Invalid</>";
+            return $this->results['ssl'][] = '<fg=red>Invalid</>';
         }
 
         // Check that SSL certificate is not null
         // peer_certificate should be for example "OpenSSL X.509 resource @342"
         $params = stream_context_get_params($read);
-        $cert   = $params["options"]["ssl"]["peer_certificate"];
+        $cert = $params['options']['ssl']['peer_certificate'];
 
         $this->results['ssl'] = $cert ? '<fg=green>Valid</>' : '<fg=red>Invalid</>';
     }
 
     /**
-     * Search For Http
-     *
+     * Search For Http.
      */
     public function searchForHttp()
     {
-        $dir    = config('scanner.views');
-        $http   = 0;
+        $dir = config('scanner.views');
+        $http = 0;
         $output = '';
 
         $di = new \RecursiveDirectoryIterator($dir);
@@ -121,24 +118,22 @@ class Launch extends Command
     }
 
     /**
-     * Remove console.logs from js file
-     *
+     * Remove console.logs from js file.
      */
     public function hasYarn()
     {
-        $this->results['yarn'] = ['Yarn.lock', (File::exists(base_path('yarn.lock'))) ? "<fg=green>Present</>" : "<fg=red>File not found</>"];
+        $this->results['yarn'] = ['Yarn.lock', (File::exists(base_path('yarn.lock'))) ? '<fg=green>Present</>' : '<fg=red>File not found</>'];
     }
 
     /**
-     * Remove console.logs from js file
-     *
+     * Remove console.logs from js file.
      */
     public function removeConsoleLogs()
     {
-        $js    = File::get(public_path('js/app.js'));
+        $js = File::get(public_path('js/app.js'));
         $regex = '/(?<console>(?:\/\/)?\s*console\.[^;]+;)/';
         $count = preg_match_all($regex, $js, $matches);
-        $str   = preg_replace($regex, '', $js);
+        $str = preg_replace($regex, '', $js);
 
         File::put(public_path('js/app.js'), $str);
 
@@ -146,8 +141,7 @@ class Launch extends Command
     }
 
     /**
-     * Check for minified asset files (css/js)
-     *
+     * Check for minified asset files (css/js).
      */
     public function hasMinifiedAssets()
     {
@@ -156,7 +150,7 @@ class Launch extends Command
         foreach (config('scanner.assets') as $key => $value) {
             $fp = fopen($value, 'r');
 
-            while(!feof($fp)) {
+            while (! feof($fp)) {
                 fgets($fp);
             }
 
@@ -174,8 +168,7 @@ class Launch extends Command
     }
 
     /**
-     * Remove console.logs from js file
-     *
+     * Remove console.logs from js file.
      */
     public function hasErrorPages()
     {
@@ -188,7 +181,7 @@ class Launch extends Command
     }
 
     /**
-     * [addTableSeperator description]
+     * [addTableSeperator description].
      */
     protected function addTableSeperator()
     {
