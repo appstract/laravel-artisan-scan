@@ -128,7 +128,7 @@ class Launch extends Command
      */
     public function removeConsoleLogs()
     {
-        $file  = File::get(public_path('js/app.js'));
+        $file = File::get(public_path('js/app.js'));
         $regex = '/(?<console>(?:\/\/)?\s*console\.[^;]+;)/';
         $count = preg_match_all($regex, $file, $matches);
 
@@ -142,7 +142,7 @@ class Launch extends Command
      */
     public function hasMinifiedAssets()
     {
-        $output = collect(config('scanner.assets'))->map(function($value, $key){
+        $output = collect(config('scanner.assets'))->map(function ($value, $key) {
             $fp = fopen($value, 'r');
 
             while (! feof($fp)) {
@@ -164,7 +164,7 @@ class Launch extends Command
      */
     public function hasErrorPages()
     {
-        $output = collect([404, 500, 503])->map(function($value, $key){
+        $output = collect([404, 500, 503])->map(function ($value, $key) {
             return (! File::exists(base_path("resources/views/errors/$value.blade.php")))
                 ? "<fg=red>$value not found</>"
                 : "<fg=green>$value present</>";
