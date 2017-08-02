@@ -6,6 +6,7 @@ use File;
 use Illuminate\Console\Command;
 use Appstract\LushHttp\LushFacade as Lush;
 use Appstract\LushHttp\Exception\LushRequestException;
+use Symfony\Component\Console\Helper\TableSeparator;
 
 class Launch extends Command
 {
@@ -39,22 +40,28 @@ class Launch extends Command
     {
         // Check for SSL certificate
         $this->checkSsl();
+        $this->addTableSeperator();
 
         // Search sources for http://. Replace by https://
         $this->searchForHttp();
+        $this->addTableSeperator();
 
         // Is yarn.lock present?
         $this->hasYarn();
+        $this->addTableSeperator();
 
         // Remove all console.log lines in scripts
         $this->removeConsoleLogs();
+        $this->addTableSeperator();
 
         // Check if assets are minified
         $this->hasMinifiedAssets();
+        $this->addTableSeperator();
 
         // Are 404, 500 and 503 pages provided?
         $this->hasErrorPages();
 
+        // Render
         return $this->table(['Category', 'Results'], $this->results);
     }
 
@@ -71,25 +78,20 @@ class Launch extends Command
 
         $this->results = array_add($this->results, 'ssl', ['SSL certificate']);
 
-        $domain = config('scanner.domain');
-
-        $stream = stream_context_create(['ssl' => ['capture_peer_cert' => true]]);
-
         try {
-            $read = fopen($domain, 'rb', false, $stream);
+            $domain = config('scanner.domain');
+            $stream = stream_context_create(['ssl' => ['capture_peer_cert' => true]]);
+            $read   = fopen($domain, 'rb', false, $stream);
         } catch (\Exception $e) {
-            $this->results['ssl'][] = "<fg=red>Invalid</>\n";
-
-            return;
+            return $this->results['ssl'][] = "<fg=red>Invalid</>";
         }
-
-        $params = stream_context_get_params($read);
 
         // Check that SSL certificate is not null
         // peer_certificate should be for example "OpenSSL X.509 resource @342"
-        $cert = $params["options"]["ssl"]["peer_certificate"];
+        $params = stream_context_get_params($read);
+        $cert   = $params["options"]["ssl"]["peer_certificate"];
 
-        $this->results[] = ($cert) ? '<fg=green>Valid</>' : '<fg=red>Invalid</>';
+        $this->results['ssl'] = $cert ? '<fg=green>Valid</>' : '<fg=red>Invalid</>';
     }
 
     /**
@@ -109,7 +111,7 @@ class Launch extends Command
                 $content = File::get($file);
                 $regex = '/http:\/\//';
                 if (preg_match_all($regex, $content, $matches)) {
-                    $output .= $filename.PHP_EOL;
+                    $output .= $filename;
                     $http++;
                 }
             }
@@ -124,7 +126,7 @@ class Launch extends Command
      */
     public function hasYarn()
     {
-        $this->results['yarn'] = ['Yarn.lock', (! File::exists(base_path('yarn.lock'))) ? "<fg=red>File not found</>\n" : "<fg=green>Present</>\n"];
+        $this->results['yarn'] = ['Yarn.lock', (File::exists(base_path('yarn.lock'))) ? "<fg=green>Present</>" : "<fg=red>File not found</>"];
     }
 
     /**
@@ -140,7 +142,7 @@ class Launch extends Command
 
         File::put(public_path('js/app.js'), $str);
 
-        $this->results['console.log'] = ['console.log', "$count removed\n"];
+        $this->results['console.log'] = ['console.log', "$count removed"];
     }
 
     /**
@@ -164,7 +166,7 @@ class Launch extends Command
             $bytes = round($bytes / 1024).'KB';
 
             $output .= ($bytes > 50)
-                ? "<fg=yellow>$key: $bytes</>\n"
+                ? "<fg=yellow>$key: $bytes</>"
                 : PHP_EOL."<fg=green>$key: $bytes</>";
         }
 
@@ -183,5 +185,13 @@ class Launch extends Command
         $output = $page404.PHP_EOL.$page500.PHP_EOL.$page503;
 
         $this->results['errors'] = ['Error pages', $output];
+    }
+
+    /**
+     * [addTableSeperator description]
+     */
+    protected function addTableSeperator()
+    {
+        $this->results[] = new TableSeparator();
     }
 }
