@@ -6,14 +6,12 @@ use Illuminate\Support\ServiceProvider;
 
 class ArtisanScanServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      */
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            
             $this->publishes([
                 __DIR__.'/../config/scanner.php' => config_path('scanner.php'),
             ], 'config');

@@ -31,8 +31,9 @@ class Performance extends Command
         // check for optimized autoloader
         // check for chache
 
-        $opcacheSettings = opcache_get_configuration(); 
-        if ($opcacheSettings['directives']['opcache.enable'] == false) {            
+        $opcacheSettings = opcache_get_configuration();
+
+        if ($opcacheSettings['directives']['opcache.enable'] == false) {
             $this->error('Opcache is not enabled');
         }
 
