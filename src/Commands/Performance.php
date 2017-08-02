@@ -13,6 +13,7 @@ class Performance extends Command
      * @var string
      */
     protected $signature = 'scan:performance';
+
     /**
      * The console command description.
      *

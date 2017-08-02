@@ -105,9 +105,7 @@ class Launch extends Command
 
         foreach (new \RecursiveIteratorIterator($di) as $filename => $file) {
             if (File::extension($file) == 'php') {
-                $content = File::get($file);
-                $regex = '/http:\/\//';
-                if (preg_match_all($regex, $content, $matches)) {
+                if (preg_match_all('/http:\/\//', File::get($file), $matches)) {
                     $output .= $filename;
                     $http++;
                 }
@@ -130,12 +128,11 @@ class Launch extends Command
      */
     public function removeConsoleLogs()
     {
-        $js = File::get(public_path('js/app.js'));
+        $file  = File::get(public_path('js/app.js'));
         $regex = '/(?<console>(?:\/\/)?\s*console\.[^;]+;)/';
-        $count = preg_match_all($regex, $js, $matches);
-        $str = preg_replace($regex, '', $js);
+        $count = preg_match_all($regex, $file, $matches);
 
-        File::put(public_path('js/app.js'), $str);
+        File::put(public_path('js/app.js'), preg_replace($regex, '', $file));
 
         $this->results['console.log'] = ['console.log', "$count removed"];
     }
@@ -145,9 +142,7 @@ class Launch extends Command
      */
     public function hasMinifiedAssets()
     {
-        $output = '';
-
-        foreach (config('scanner.assets') as $key => $value) {
+        $output = collect(config('scanner.assets'))->map(function($value, $key){
             $fp = fopen($value, 'r');
 
             while (! feof($fp)) {
@@ -156,13 +151,10 @@ class Launch extends Command
 
             fclose($fp);
 
-            $bytes = File::size($value);
-            $bytes = round($bytes / 1024).'KB';
+            $bytes = round(File::size($value) / 1024).'KB';
 
-            $output .= ($bytes > 50)
-                ? "<fg=yellow>$key: $bytes</>"
-                : PHP_EOL."<fg=green>$key: $bytes</>";
-        }
+            return ($bytes > 50) ? "<fg=yellow>$key: $bytes</>" : "<fg=green>$key: $bytes</>";
+        })->implode("\n");
 
         $this->results['assets'] = ['Minified assets', $output];
     }
@@ -172,10 +164,11 @@ class Launch extends Command
      */
     public function hasErrorPages()
     {
-        $page404 = (! File::exists(base_path('resources/views/errors/404.blade.php'))) ? '<fg=red>404 not found</>' : '<fg=green>404 present</>';
-        $page500 = (! File::exists(base_path('resources/views/errors/500.blade.php'))) ? '<fg=red>500 not found</>' : '<fg=green>500 present</>';
-        $page503 = (! File::exists(base_path('resources/views/errors/503.blade.php'))) ? '<fg=red>503 not found</>' : '<fg=green>503 present</>';
-        $output = $page404.PHP_EOL.$page500.PHP_EOL.$page503;
+        $output = collect([404, 500, 503])->map(function($value, $key){
+            return (! File::exists(base_path("resources/views/errors/$value.blade.php")))
+                ? "<fg=red>$value not found</>"
+                : "<fg=green>$value present</>";
+        })->implode("\n");
 
         $this->results['errors'] = ['Error pages', $output];
     }
