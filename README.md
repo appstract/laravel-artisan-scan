@@ -7,7 +7,7 @@
 
 # Work in progress
 
-This package allows you to check several things in just one command, suchs as: 
+This package allows you to check several things in just one command, such as: 
 - mixed content
 - SSL certificate
 - Minified assets 
