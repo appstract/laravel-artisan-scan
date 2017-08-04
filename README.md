@@ -1,11 +1,19 @@
-# Very short description of the package
+# Laravel artisan scan
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/appstract/laravel-artisan-scan.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-artisan-scan)
 [![Total Downloads](https://img.shields.io/packagist/dt/appstract/laravel-artisan-scan.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-artisan-scan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/appstract/laravel-artisan-scan/master.svg?style=flat-square)](https://travis-ci.org/appstract/laravel-artisan-scan)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors. Create a link to a medium article.
+# Work in progress
+
+This package allows you to check several things in just one command, suchs as: 
+- mixed content
+- SSL certificate
+- Minified assets 
+
+However, keep in mind that this is still a work in progress, feel free to check it out tho.
+
 
 ## Installation
 
