@@ -23,23 +23,9 @@ You can install the package via composer:
 composer require appstract/laravel-artisan-scan
 ```
 
-### Provider
-
-Then add the ServiceProvider to your `config/app.php` file:
-
-```
-'providers' => [
-    ...
-
-    Appstract\ArtisanScan\ArtisanScanServiceProvider::class
-
-    ...
-]
-```
-
 ## Usage
 
-``` php
+``` bash
 php artisan scan:launch
 ```
 
