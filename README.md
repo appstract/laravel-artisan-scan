@@ -1,4 +1,4 @@
-# Laravel artisan scan
+# [Wip] Laravel artisan scan
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/appstract/laravel-artisan-scan.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-artisan-scan)
 [![Total Downloads](https://img.shields.io/packagist/dt/appstract/laravel-artisan-scan.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-artisan-scan)
