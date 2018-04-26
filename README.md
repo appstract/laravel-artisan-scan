@@ -29,6 +29,8 @@ composer require appstract/laravel-artisan-scan
 php artisan scan:launch
 ```
 
+![Screenshot](_screenshot.png?raw=true)
+
 ## Testing
 
 ``` bash
